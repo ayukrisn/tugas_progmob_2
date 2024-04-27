@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
-import 'dart:convert';
 
 class UserData {
   final int id;
@@ -133,7 +132,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         )),
                                 const SizedBox(height: 4),
                                 Text('Email: ${userData?.email}',
-                                    style: Theme.of(context).textTheme.bodySmall),
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall),
                               ],
                             ),
                           ),
@@ -172,18 +172,31 @@ class _ProfilePageState extends State<ProfilePage> {
                           )
                         ],
                       ),
+                      const SizedBox(height: 50),
+                      Expanded(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/anggota',
+                                arguments: userData,
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFF857BC9),
+                                elevation: 1,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10)),
+                            child: Text('Lihat Daftar Anggota',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: Colors.white))),
+                      ),
                     ],
-                  )
-        
-            // : Column(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       Text('User ID: ${userData?.id}'),
-            //       Text('Name: ${userData?.name}'),
-            //       Text('Email: ${userData?.email}'),
-            //     ],
-            //   ),
-            ),
+                  )),
       ),
     );
   }
