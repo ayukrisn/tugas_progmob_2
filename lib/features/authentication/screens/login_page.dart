@@ -42,9 +42,35 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
       print(_response.data);
-      _storage.write('token', _response.data['data']['token']);
+      final token = _response.data['data']['token'];
+      final userData = _response.data['data'];
+      _storage.write('token', token);
+      _storage.write('userData', userData);
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/profile',
+        arguments: userData,
+      );
+
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Oops!"),
+              content: Text(e.response?.data['message'] ?? 'An error occurred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
     }
   }
 
@@ -74,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: <TextSpan>[
                   TextSpan(
                     text: 'Mulai dengan memasukkan ',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF5E5695)),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                   TextSpan(
                     text: 'e-mail and password',
@@ -86,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextSpan(
                     text: ' di bawah, lalu kita akan segera memulai!',
-                    style: TextStyle(fontSize: 14, color: Color(0xFF5E5695)),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                 ],
               ),
