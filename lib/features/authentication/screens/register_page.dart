@@ -11,6 +11,9 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final _dio = Dio();
+  final _storage = GetStorage();
+  final _apiUrl = 'https://mobileapis.manpits.xyz/api';
 
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
@@ -26,6 +29,68 @@ class _RegisterPageState extends State<RegisterPage> {
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void goRegister() async {
+    try {
+      final _response = await _dio.post(
+        '${_apiUrl}/register',
+        data: {
+          'name': _nameController.text,
+          'email': _emailController.text,
+          'password': _passwordController.text
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      print(_response.data);
+      final token = _response.data['data']['token'];
+      final userData = _response.data['data'];
+      _storage.write('token', token);
+      _storage.write('userData', userData);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Register berhasil!"),
+              content: Text('Ayo log in dengan akun barumu'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+      Navigator.pushReplacementNamed(
+        context,
+        '/login',
+        arguments: userData,
+      );
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Oops!"),
+              content: Text(e.response?.data['message'] ?? 'An error occurred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    }
   }
 
   @override
@@ -217,6 +282,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               if (_formKey.currentState!.validate() &&
                                   _agreeToTerms) {
                                 _formKey.currentState?.save();
+                                goRegister();
                               } else if (!_agreeToTerms) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -245,10 +311,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Sudah punya akun? ",
                         style:
-                            TextStyle(fontSize: 14, color: Color(0xFF5E5695)),
+                            Theme.of(context).textTheme.bodyMedium,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -259,10 +325,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                         child: Text(
                           'Log In',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: Color(0xFF5E5695)),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF5E5695),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],

@@ -191,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
                           'Reset Password',
                           style: TextStyle(
                             fontSize: 14,
-                            color: Color(0xFF263E4A),
+                            color: Color(0xFF5E5695),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -227,10 +227,10 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "Tidak punya akun? ",
                         style:
-                            TextStyle(fontSize: 14, color: Color(0xFF5E5695)),
+                            Theme.of(context).textTheme.bodyMedium,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -241,10 +241,11 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           'Register',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.copyWith(color: Color(0xFF5E5695)),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF5E5695),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
