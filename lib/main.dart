@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:tugas_progmob_2/utils/theme/theme.dart';
 import 'package:tugas_progmob_2/features/authentication/screens/splash_screen.dart';
 import 'package:tugas_progmob_2/features/authentication/screens/login_page.dart';
+import 'package:tugas_progmob_2/features/authentication/screens/register_page.dart';
 import 'package:tugas_progmob_2/features/profile/screens/profile_page.dart';
 import 'package:tugas_progmob_2/features/users/screens/users_list.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginPage(),
+        '/register': (context) => RegisterPage(),
         '/profile': (context) => ProfilePage(),
         '/anggota': (context) => UsersList(),
       },

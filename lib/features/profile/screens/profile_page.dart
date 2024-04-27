@@ -54,6 +54,52 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void goLogout() async {
+    try {
+      final _response = await _dio.get(
+        '${_apiUrl}/logout',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+        ),
+      );
+      print(_response.data);
+
+      Navigator.pushReplacementNamed(
+        context,
+        '/login',
+      );
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+    }
+  }
+
+  void showLogoutConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Apakah kamu yakin ingin keluar?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () {
+                goLogout(); // Call the logout function
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Keluar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -64,68 +110,81 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF2F2F2),
-      body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-          child: userData == null
-              ? CircularProgressIndicator()
-              : ListView(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Hello, ${userData?.name}!',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium
-                                      ?.copyWith(
-                                        color: Color(0xFF5E5695),
-                                      )),
-                              const SizedBox(height: 4),
-                              Text('Email: ${userData?.email}',
-                                  style: Theme.of(context).textTheme.bodySmall),
-                            ],
+      body: Center(
+        child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+            child: userData == null
+                ? CircularProgressIndicator()
+                : ListView(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Hello, ${userData?.name}!',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium
+                                        ?.copyWith(
+                                          color: Color(0xFF5E5695),
+                                        )),
+                                const SizedBox(height: 4),
+                                Text('Email: ${userData?.email}',
+                                    style: Theme.of(context).textTheme.bodySmall),
+                              ],
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color.fromARGB(26, 94, 86, 149)),
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.notifications_none,
-                                  size: 32,
-                                  color: Colors.black,
+                          Row(
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(26, 94, 86, 149)),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.notifications_none,
+                                    size: 32,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
-                            )
-                            // const CircleAvatar(
-                            //   radius: 28,
-                            //   backgroundImage:
-                            //       AssetImage('assets/avatar5.jpeg'),
-                            // ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                )
-
-          // : Column(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     children: <Widget>[
-          //       Text('User ID: ${userData?.id}'),
-          //       Text('Name: ${userData?.name}'),
-          //       Text('Email: ${userData?.email}'),
-          //     ],
-          //   ),
-          ),
+                              const SizedBox(width: 8),
+                              Container(
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(26, 94, 86, 149)),
+                                child: IconButton(
+                                  onPressed: () {
+                                    showLogoutConfirmationDialog();
+                                  },
+                                  icon: const Icon(
+                                    Icons.logout_outlined,
+                                    size: 32,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  )
+        
+            // : Column(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Text('User ID: ${userData?.id}'),
+            //       Text('Name: ${userData?.name}'),
+            //       Text('Email: ${userData?.email}'),
+            //     ],
+            //   ),
+            ),
+      ),
     );
   }
 }

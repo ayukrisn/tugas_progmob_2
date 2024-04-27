@@ -79,11 +79,7 @@ class StartingPage extends StatelessWidget {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => SignupPage()),
-                          // );
+                          Navigator.pushReplacementNamed(context, '/register');
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xFFF857BC9),
