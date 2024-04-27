@@ -63,18 +63,69 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: userData == null
-            ? CircularProgressIndicator()
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('User ID: ${userData?.id}'),
-                  Text('Name: ${userData?.name}'),
-                  Text('Email: ${userData?.email}'),
-                ],
-              ),
-      ),
+      backgroundColor: Color(0xFFF2F2F2),
+      body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+          child: userData == null
+              ? CircularProgressIndicator()
+              : ListView(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Hello, ${userData?.name}!',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium
+                                      ?.copyWith(
+                                        color: Color(0xFF5E5695),
+                                      )),
+                              const SizedBox(height: 4),
+                              Text('Email: ${userData?.email}',
+                                  style: Theme.of(context).textTheme.bodySmall),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromARGB(26, 94, 86, 149)),
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.notifications_none,
+                                  size: 32,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            )
+                            // const CircleAvatar(
+                            //   radius: 28,
+                            //   backgroundImage:
+                            //       AssetImage('assets/avatar5.jpeg'),
+                            // ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                )
+
+          // : Column(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: <Widget>[
+          //       Text('User ID: ${userData?.id}'),
+          //       Text('Name: ${userData?.name}'),
+          //       Text('Email: ${userData?.email}'),
+          //     ],
+          //   ),
+          ),
     );
   }
 }
