@@ -92,10 +92,11 @@ class StartingPage extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             padding: EdgeInsets.symmetric(vertical: 10)),
-                        child: Text('Mulai Sekarang', style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 16,
-                                  color: Colors.white)),
+                        child: Text('Mulai Sekarang',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                color: Colors.white)),
                       ),
                     ),
                   ],
@@ -110,10 +111,7 @@ class StartingPage extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => LoginPage()),
-                        // );
+                        Navigator.pushReplacementNamed(context, '/login');
                       },
                       child: const Text(
                         'Log In',

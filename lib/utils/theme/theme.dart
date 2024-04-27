@@ -60,16 +60,14 @@ class TAppTheme {
             fontSize: 18, fontWeight: FontWeight.w800, color: Colors.black)),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Color(0xFFECE9FF),
+      fillColor: Color.fromARGB(255, 247, 245, 255),
       hintStyle: const TextStyle(
         fontSize: 14,
         color: Color(0xFF5E5695),
-        fontWeight: FontWeight.bold,
       ),
       labelStyle: const TextStyle(
         fontSize: 14,
         color: Color(0xFF5E5695),
-        fontWeight: FontWeight.bold,
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(20),
