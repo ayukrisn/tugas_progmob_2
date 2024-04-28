@@ -67,7 +67,7 @@ class _UsersListState extends State<UsersList> {
   final _dio = Dio();
   final _storage = GetStorage();
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
-  
+
   Future<void> getAnggota() async {
     try {
       final _response = await _dio.get(
@@ -81,19 +81,36 @@ class _UsersListState extends State<UsersList> {
       setState(() {
         anggotaDatas = AnggotaDatas.fromJson(responseData);
       });
-      if (anggotaDatas != null) {
-        print('Data anggota:');
-        print(anggotaDatas!.anggotaDatas);
-        print(anggotaDatas!.anggotaDatas[0]);
-        for (var anggota in anggotaDatas!.anggotaDatas) {
-          print('ID: ${anggota.id}');
-          print('Nama: ${anggota.nama}');
-          print('Nomor Induk: ${anggota.nomor_induk}');
-        }
-      } else {
-        print('anggotaDatas is null');
-      }
-      print('test');
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+    }
+  }
+
+  Future<void> delAnggota(int id) async {
+    try {
+      final _response = await _dio.delete(
+        '${_apiUrl}/anggota/${id}',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+        ),
+      );
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Selamat tinggal :'("),
+              content: Text('Anggota sudah dihapus.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+          getAnggota();
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
     }
@@ -102,6 +119,12 @@ class _UsersListState extends State<UsersList> {
   @override
   void initState() {
     super.initState();
+    getAnggota();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     getAnggota();
   }
 
@@ -152,23 +175,18 @@ class _UsersListState extends State<UsersList> {
                               Text(anggota.telepon),
                             ],
                           ),
-                          trailing: Icon(Icons.delete),
+                          trailing: IconButton(
+                            onPressed: () {
+                              delAnggota(anggota.id);
+                            },
+                            icon: Icon(Icons.delete_outline)),
                           leading: const CircleAvatar(
                             backgroundImage:
                                 AssetImage('assets/images/anggota.jpeg'),
                           ),
                           onTap: () {
-                            Navigator.pushNamed(
-                                context,
-                                '/anggota/detail',
-                                arguments: anggota.id
-                              );
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   SnackBar(
-                            //     content: Text(
-                            //         'You clicked ${anggota.nama} contact!'),
-                            //   ),
-                            // );
+                            Navigator.pushNamed(context, '/anggota/detail',
+                                arguments: anggota.id);
                           },
                         );
                       },
@@ -189,9 +207,7 @@ class _UsersListState extends State<UsersList> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
-                onChanged: (value) {
-                  
-                },
+                onChanged: (value) {},
               ),
             ),
           ),
