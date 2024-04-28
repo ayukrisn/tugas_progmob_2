@@ -144,7 +144,9 @@ class _UsersListState extends State<UsersList> {
               color: Color.fromARGB(26, 94, 86, 149),
             ),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, '/anggota/tambah');
+              },
               icon: Icon(
                 Icons.add,
                 size: 32,
