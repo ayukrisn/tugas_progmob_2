@@ -22,14 +22,6 @@ class _AddUserState extends State<AddUser> {
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
   DateTime? _tglLahir;
 
-  void goPrint() {
-    print(_nomorIndukController.value);
-    print(_namaController.value);
-    print(_alamatController.value);
-    print(_tglLahirController.value);
-    print(_noTeleponController.value);
-  }
-
   Future<void> _selectDate() async {
     DateTime? _picked = await showDatePicker(
       context: context,
@@ -41,8 +33,67 @@ class _AddUserState extends State<AddUser> {
       setState(() {
         _tglLahir = _picked;
         _tglLahirController.text =
-            "${_picked.day}/${_picked.month}/${_picked.year}";
+            "${_picked.year}-${_picked.month}-${_picked.day}";
       });
+    }
+  }
+
+  void goAddUser() async {
+    try {
+      print('_nomorIndukController.text: ${_nomorIndukController.text}');
+
+      final _response = await _dio.post(
+        '${_apiUrl}/anggota',
+        data: {
+            'nomor_induk': _nomorIndukController.text,
+            'nama': _namaController.text,
+            'alamat': _alamatController.text,
+            'tgl_lahir': _tglLahirController.text,
+            'telepon': _noTeleponController.text,
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ${_storage.read('token')}',
+          },
+        ),
+      );
+      print(_response.data);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Anggota berhasil ditambahkan!"),
+              content: Text('Yeay!'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+          getAnggota();
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Oops!"),
+              content: Text(e.response?.data['message'] ?? 'An error occurred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
     }
   }
 
@@ -152,30 +203,30 @@ class _AddUserState extends State<AddUser> {
                     ),
                     const SizedBox(height: 70),
                     Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState?.save();
-                                goPrint();
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFFF857BC9),
-                                elevation: 1,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: EdgeInsets.symmetric(vertical: 10)),
-                            child: Text('Tambah Anggota',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    color: Colors.white))),
-                      ),
-                    ],
-                  ),
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState?.save();
+                                  goAddUser();
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFF857BC9),
+                                  elevation: 1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 10)),
+                              child: Text('Tambah Anggota',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: Colors.white))),
+                        ),
+                      ],
+                    ),
                   ]))
         ]),
       ),
