@@ -103,23 +103,24 @@ class _UserDetailState extends State<UserDetail> {
                     Row(
                       children: [
                         Expanded(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFF857BC9),
-                                      elevation: 1,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      padding: EdgeInsets.symmetric(vertical: 10)),
-                                  child: Text('Edit Anggota',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins',
-                                          fontSize: 16,
-                                          color: Colors.white))),
-                            ),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/anggota/edit',
+                                    arguments: anggota?.id);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFF857BC9),
+                                  elevation: 1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding: EdgeInsets.symmetric(vertical: 10)),
+                              child: Text('Edit Anggota',
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      color: Colors.white))),
+                        ),
                       ],
                     ),
                   ],

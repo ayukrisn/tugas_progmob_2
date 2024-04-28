@@ -22,6 +22,17 @@ class _AddUserState extends State<AddUser> {
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
   DateTime? _tglLahir;
 
+  @override
+  void dispose() {
+    // Dispose the controller when the widget is disposed
+    _nomorIndukController.dispose();
+    _namaController.dispose();
+    _alamatController.dispose();
+    _tglLahirController.dispose();
+    _noTeleponController.dispose();
+    super.dispose();
+  }
+
   Future<void> _selectDate() async {
     DateTime? _picked = await showDatePicker(
       context: context,
