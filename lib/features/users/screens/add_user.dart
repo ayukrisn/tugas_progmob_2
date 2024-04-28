@@ -75,7 +75,6 @@ class _AddUserState extends State<AddUser> {
               ],
             );
           });
-          getAnggota();
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
       showDialog(
