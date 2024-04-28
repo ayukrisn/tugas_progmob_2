@@ -10,6 +10,7 @@ import 'package:tugas_progmob_2/features/profile/screens/profile_page.dart';
 import 'package:tugas_progmob_2/features/users/screens/users_list.dart';
 import 'package:tugas_progmob_2/features/users/screens/add_user.dart';
 import 'package:tugas_progmob_2/features/users/screens/user_detail.dart';
+import 'package:tugas_progmob_2/features/users/screens/edit_user.dart';
 
 Future<void> main() async{
   await GetStorage.init();
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/anggota', page: () => UsersList()),
         GetPage(name: '/anggota/detail', page: () => UserDetail()),
         GetPage(name: '/anggota/tambah', page: () => AddUser()),
+        GetPage(name: '/anggota/edit', page: () => EditUser()),
       ],
     );
   }

@@ -69,10 +69,7 @@ class _AddUserState extends State<AddUser> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/anggota',
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ],

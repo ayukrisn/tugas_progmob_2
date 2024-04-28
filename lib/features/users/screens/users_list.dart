@@ -145,6 +145,23 @@ class _UsersListState extends State<UsersList> {
             ),
             child: IconButton(
               onPressed: () {
+                getAnggota();
+              },
+              icon: Icon(
+                Icons.refresh,
+                size: 32,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {
                 Navigator.pushNamed(
                   context,
                   '/anggota/tambah',

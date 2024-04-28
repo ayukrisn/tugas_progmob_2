@@ -50,50 +50,81 @@ class _UserDetailState extends State<UserDetail> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
-        title: Text('Anggota',
+        title: Text('Detail Anggota',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Color(0xFF5E5695),
                 )),
-        actions: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(26, 94, 86, 149),
-            ),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.add,
-                size: 32,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          SizedBox(width: 16),
-        ],
       ),
       body: Center(
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 68),
-            child: anggota == null
-                ? Text("Belum ada anggota")
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                        Text("Anggota ID: ${anggota?.id}"),
-                        Text("Anggota No Induk: ${anggota?.nomor_induk}"),
-                        Text("Anggota Nama: ${anggota?.nama}"),
-                        Text("Anggota Alamat: ${anggota?.alamat}"),
-                        Text("Anggota Tanggal Lahir: ${anggota?.tgl_lahir}"),
-                        Text("Anggota Telepon: ${anggota?.telepon}"),
-                        Text("Anggota Image URL: ${anggota?.image_url}"),
-                        Text("Anggota Status Aktif: ${anggota?.status_aktif}"),
-                      ])),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+          child: anggota == null
+              ? Text("Belum ada anggota")
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text("ID"),
+                      subtitle: Text("${anggota?.id}"),
+                    ),
+                    ListTile(
+                      title: Text("Nomor Induk"),
+                      subtitle: Text("${anggota?.nomor_induk}"),
+                    ),
+                    ListTile(
+                      title: Text("Nama"),
+                      subtitle: Text("${anggota?.nama}"),
+                    ),
+                    ListTile(
+                      title: Text("Alamat"),
+                      subtitle: Text("${anggota?.alamat}"),
+                    ),
+                    ListTile(
+                      title: Text("Tanggal Lahir"),
+                      subtitle: Text("${anggota?.tgl_lahir}"),
+                    ),
+                    ListTile(
+                      title: Text("Telepon"),
+                      subtitle: Text("${anggota?.telepon}"),
+                    ),
+                    ListTile(
+                      title: Text("Image URL"),
+                      subtitle: Text("${anggota?.image_url}"),
+                    ),
+                    ListTile(
+                      title: Text("Status Aktif"),
+                      subtitle: Text("${anggota?.status_aktif}"),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xFFF857BC9),
+                                      elevation: 1,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      padding: EdgeInsets.symmetric(vertical: 10)),
+                                  child: Text('Edit Anggota',
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                          color: Colors.white))),
+                            ),
+                      ],
+                    ),
+                  ],
+                ),
+        ),
       ),
     );
   }
