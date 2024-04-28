@@ -37,8 +37,8 @@ class Anggota {
     required this.alamat,
     required this.tgl_lahir,
     required this.telepon,
-     required this.image_url,
-     required this.status_aktif,
+    required this.image_url,
+    required this.status_aktif,
   });
 
   factory Anggota.fromJson(Map<String, dynamic> json) {
@@ -67,6 +67,7 @@ class _UsersListState extends State<UsersList> {
   final _dio = Dio();
   final _storage = GetStorage();
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
+  
   Future<void> getAnggota() async {
     try {
       final _response = await _dio.get(
@@ -113,46 +114,88 @@ class _UsersListState extends State<UsersList> {
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Color(0xFF5E5695),
                 )),
-        actions: const [
-          Icon(Icons.more_vert),
+        actions: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.add,
+                size: 32,
+                color: Colors.black,
+              ),
+            ),
+          ),
           SizedBox(width: 16),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-          child: anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
-              ? Text("Belum ada anggota")
-              : ListView.builder(
-                  itemCount: anggotaDatas!.anggotaDatas.length,
-                  itemBuilder: (context, index) {
-                    final anggota = anggotaDatas!.anggotaDatas[index];
-                    return ListTile(
-                      title: Text(anggota.nama),
-                      subtitle: Row(
-                        children: [
-                          Icon(Icons.phone, size: 14),
-                          SizedBox(width: 6),
-                          Text(anggota.telepon),
-                        ],
-                      ),
-                      trailing: Icon(Icons.more_vert),
-                      leading: const CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/images/anggota.jpeg'),
-                      ),
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                                'You clicked ${anggota.nama} contact!'),
+      body: Stack(
+        children: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 68),
+              child: anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
+                  ? Text("Belum ada anggota")
+                  : ListView.builder(
+                      itemCount: anggotaDatas!.anggotaDatas.length,
+                      itemBuilder: (context, index) {
+                        final anggota = anggotaDatas!.anggotaDatas[index];
+                        return ListTile(
+                          title: Text(anggota.nama),
+                          subtitle: Row(
+                            children: [
+                              Icon(Icons.phone, size: 14),
+                              SizedBox(width: 6),
+                              Text(anggota.telepon),
+                            ],
                           ),
+                          trailing: Icon(Icons.delete),
+                          leading: const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/anggota.jpeg'),
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context,
+                                '/anggota/detail',
+                                arguments: anggota.id
+                              );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   SnackBar(
+                            //     content: Text(
+                            //         'You clicked ${anggota.nama} contact!'),
+                            //   ),
+                            // );
+                          },
                         );
                       },
-                    );
-                  },
+                    ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Cari anggota...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-        ),
+                onChanged: (value) {
+                  
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
