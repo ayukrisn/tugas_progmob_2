@@ -110,7 +110,7 @@ class _UsersListState extends State<UsersList> {
               ],
             );
           });
-          getAnggota();
+      getAnggota();
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
     }
@@ -145,7 +145,10 @@ class _UsersListState extends State<UsersList> {
             ),
             child: IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/anggota/tambah');
+                Navigator.pushNamed(
+                  context,
+                  '/anggota/tambah',
+                );
               },
               icon: Icon(
                 Icons.add,
@@ -178,10 +181,10 @@ class _UsersListState extends State<UsersList> {
                             ],
                           ),
                           trailing: IconButton(
-                            onPressed: () {
-                              delAnggota(anggota.id);
-                            },
-                            icon: Icon(Icons.delete_outline)),
+                              onPressed: () {
+                                delAnggota(anggota.id);
+                              },
+                              icon: Icon(Icons.delete_outline)),
                           leading: const CircleAvatar(
                             backgroundImage:
                                 AssetImage('assets/images/anggota.jpeg'),

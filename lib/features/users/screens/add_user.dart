@@ -45,11 +45,11 @@ class _AddUserState extends State<AddUser> {
       final _response = await _dio.post(
         '${_apiUrl}/anggota',
         data: {
-            'nomor_induk': _nomorIndukController.text,
-            'nama': _namaController.text,
-            'alamat': _alamatController.text,
-            'tgl_lahir': _tglLahirController.text,
-            'telepon': _noTeleponController.text,
+          'nomor_induk': _nomorIndukController.text,
+          'nama': _namaController.text,
+          'alamat': _alamatController.text,
+          'tgl_lahir': _tglLahirController.text,
+          'telepon': _noTeleponController.text,
         },
         options: Options(
           headers: {
@@ -69,7 +69,10 @@ class _AddUserState extends State<AddUser> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(
+                      context,
+                      '/anggota',
+                    );
                   },
                 ),
               ],
@@ -87,7 +90,10 @@ class _AddUserState extends State<AddUser> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushNamed(
+                      context,
+                      '/anggota',
+                    );
                   },
                 ),
               ],
