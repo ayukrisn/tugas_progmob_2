@@ -131,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           color: Color(0xFF5E5695),
                                         )),
                                 const SizedBox(height: 4),
-                                Text('Email: ${userData?.email}',
+                                Text('ID: ${userData?.id} | Email: ${userData?.email}',
                                     style:
                                         Theme.of(context).textTheme.bodySmall),
                               ],
@@ -173,7 +173,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       const SizedBox(height: 50),
-                      Expanded(
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: ElevatedButton(
                             onPressed: () {
                               Navigator.pushNamed(
