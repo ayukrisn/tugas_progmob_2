@@ -61,17 +61,16 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/login',
+                      arguments: userData,
+                    );
                   },
                 ),
               ],
             );
           });
-      Navigator.pushReplacementNamed(
-        context,
-        '/login',
-        arguments: userData,
-      );
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
       showDialog(
@@ -84,7 +83,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                     Navigator.pushReplacementNamed(
+                      context,
+                      '/',
+                    );
                   },
                 ),
               ],
@@ -313,8 +315,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       Text(
                         "Sudah punya akun? ",
-                        style:
-                            Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       GestureDetector(
                         onTap: () {

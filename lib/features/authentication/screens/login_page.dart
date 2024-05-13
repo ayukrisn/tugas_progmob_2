@@ -47,11 +47,26 @@ class _LoginPageState extends State<LoginPage> {
       _storage.write('token', token);
       _storage.write('userData', userData);
 
-      Navigator.pushReplacementNamed(
-        context,
-        '/profile',
-        arguments: userData,
-      );
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Yeay!"),
+              content: Text("Kamu sudah berhasil masuk."),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/profile',
+                      arguments: userData,
+                    );
+                  },
+                ),
+              ],
+            );
+          });
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
       showDialog(
@@ -229,8 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text(
                         "Tidak punya akun? ",
-                        style:
-                            Theme.of(context).textTheme.bodyMedium,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       GestureDetector(
                         onTap: () {

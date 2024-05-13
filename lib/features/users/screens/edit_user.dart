@@ -24,14 +24,16 @@ class _EditUserState extends State<EditUser> {
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
   int id = 0;
   DateTime? _tglLahir;
+  bool _isDetailLoaded = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final args = ModalRoute.of(context)?.settings.arguments;
-    if (args != null) {
+    if (args != null && !_isDetailLoaded) {
       id = args as int;
       getDetail();
+      _isDetailLoaded = true;
     }
   }
 
@@ -122,7 +124,7 @@ class _EditUserState extends State<EditUser> {
   Future<void> _selectDate() async {
     DateTime? _picked = await showDatePicker(
       context: context,
-      initialDate: _tglLahir ?? DateTime.now(),
+      initialDate: _tglLahir,
       firstDate: DateTime(1950),
       lastDate: DateTime.now(),
     );
@@ -130,7 +132,7 @@ class _EditUserState extends State<EditUser> {
       setState(() {
         _tglLahir = _picked;
         _tglLahirController.text =
-            "${_picked.year}-${_picked.month}-${_picked.day}";
+            DateFormat('yyyy-MM-dd').format(_picked);
       });
     }
   }

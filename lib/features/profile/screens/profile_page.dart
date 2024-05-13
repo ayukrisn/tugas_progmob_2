@@ -50,6 +50,25 @@ class _ProfilePageState extends State<ProfilePage> {
       print('User data: ${userData?.id}');
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Oops!"),
+              content: Text(e.response?.data['message'] ?? 'An error occurred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      '/',
+                    );
+                  },
+                ),
+              ],
+            );
+          });
     }
   }
 

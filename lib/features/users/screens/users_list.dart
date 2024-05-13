@@ -199,7 +199,33 @@ class _UsersListState extends State<UsersList> {
                           ),
                           trailing: IconButton(
                               onPressed: () {
-                                delAnggota(anggota.id);
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Hapus Anggota'),
+                                        content: Text(
+                                            'Apakah kamu yakin ingin menghapus anggota ${anggota.nama}?'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                            child: Text('Tidak'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              delAnggota(anggota
+                                                  .id); // Call the logout function
+                                              Navigator.of(context)
+                                                  .pop(); // Close the dialog
+                                            },
+                                            child: Text('Hapus'),
+                                          ),
+                                        ],
+                                      );
+                                    });
                               },
                               icon: Icon(Icons.delete_outline)),
                           leading: const CircleAvatar(
