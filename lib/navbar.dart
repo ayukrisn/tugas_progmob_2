@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tugas_progmob_2/features/profile/screens/profile_page.dart';
 import 'package:tugas_progmob_2/features/users/screens/users_list.dart';
 import 'package:tugas_progmob_2/features/transaction/screens/transaction_type.dart';
+import 'package:tugas_progmob_2/features/savings/screens/savings_list.dart';
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
 
@@ -37,19 +38,7 @@ class NavigationController extends GetxController {
   final screens = [
     ProfilePage(),
     UsersList(),
-    Center(
-      child: Container(
-        padding: EdgeInsets.all(16),
-        child: const Text(
-          "This page has not been built yet! Stay tuned and for the meantime, you can check our Home and Buddies page. Thank you :D",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-          ),
-        ),
-      ),
-    ),
+    SavingList(),
     TransactionType(),
   ];
 }
