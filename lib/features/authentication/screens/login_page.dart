@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 
+import 'package:tugas_progmob_2/navbar.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -57,11 +59,11 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   child: Text("OK"),
                   onPressed: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      '/profile',
-                      arguments: userData,
-                    );
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => NavBar()),
+                          );
                   },
                 ),
               ],

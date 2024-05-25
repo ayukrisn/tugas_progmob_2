@@ -130,136 +130,140 @@ class _UsersListState extends State<UsersList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFFFAFAFA),
-      appBar: AppBar(
-        title: Text('Anggota',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Color(0xFF5E5695),
-                )),
-        actions: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(26, 94, 86, 149),
-            ),
-            child: IconButton(
-              onPressed: () {
-                getAnggota();
-              },
-              icon: Icon(
-                Icons.refresh,
-                size: 32,
-                color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
+      child: Scaffold(
+        backgroundColor: Color(0xFFFAFAFA),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: Text('Anggota',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Color(0xFF5E5695),
+                  )),
+          actions: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(26, 94, 86, 149),
               ),
-            ),
-          ),
-          SizedBox(width: 16),
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(26, 94, 86, 149),
-            ),
-            child: IconButton(
-              onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/anggota/tambah',
-                );
-              },
-              icon: Icon(
-                Icons.add,
-                size: 32,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          SizedBox(width: 16),
-        ],
-      ),
-      body: Stack(
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 68),
-              child: anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
-                  ? Text("Belum ada anggota")
-                  : ListView.builder(
-                      itemCount: anggotaDatas!.anggotaDatas.length,
-                      itemBuilder: (context, index) {
-                        final anggota = anggotaDatas!.anggotaDatas[index];
-                        return ListTile(
-                          title: Text(anggota.nama),
-                          subtitle: Row(
-                            children: [
-                              Icon(Icons.phone, size: 14),
-                              SizedBox(width: 6),
-                              Text(anggota.telepon),
-                            ],
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Hapus Anggota'),
-                                        content: Text(
-                                            'Apakah kamu yakin ingin menghapus anggota ${anggota.nama}?'),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog
-                                            },
-                                            child: Text('Tidak'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () {
-                                              delAnggota(anggota
-                                                  .id); // Call the logout function
-                                              Navigator.of(context)
-                                                  .pop(); // Close the dialog
-                                            },
-                                            child: Text('Hapus'),
-                                          ),
-                                        ],
-                                      );
-                                    });
-                              },
-                              icon: Icon(Icons.delete_outline)),
-                          leading: const CircleAvatar(
-                            backgroundImage:
-                                AssetImage('assets/images/anggota.jpeg'),
-                          ),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/anggota/detail',
-                                arguments: anggota.id);
-                          },
-                        );
-                      },
-                    ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Cari anggota...',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+              child: IconButton(
+                onPressed: () {
+                  getAnggota();
+                },
+                icon: Icon(
+                  Icons.refresh,
+                  size: 32,
+                  color: Colors.black,
                 ),
-                onChanged: (value) {},
               ),
             ),
-          ),
-        ],
+            SizedBox(width: 16),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(26, 94, 86, 149),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/anggota/tambah',
+                  );
+                },
+                icon: Icon(
+                  Icons.add,
+                  size: 32,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
+        ),
+        body: Stack(
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 68),
+                child: anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
+                    ? Text("Belum ada anggota")
+                    : ListView.builder(
+                        itemCount: anggotaDatas!.anggotaDatas.length,
+                        itemBuilder: (context, index) {
+                          final anggota = anggotaDatas!.anggotaDatas[index];
+                          return ListTile(
+                            title: Text(anggota.nama),
+                            subtitle: Row(
+                              children: [
+                                Icon(Icons.phone, size: 14),
+                                SizedBox(width: 6),
+                                Text(anggota.telepon),
+                              ],
+                            ),
+                            trailing: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Hapus Anggota'),
+                                          content: Text(
+                                              'Apakah kamu yakin ingin menghapus anggota ${anggota.nama}?'),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              },
+                                              child: Text('Tidak'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                delAnggota(anggota
+                                                    .id); // Call the logout function
+                                                Navigator.of(context)
+                                                    .pop(); // Close the dialog
+                                              },
+                                              child: Text('Hapus'),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                                icon: Icon(Icons.delete_outline)),
+                            leading: const CircleAvatar(
+                              backgroundImage:
+                                  AssetImage('assets/images/anggota.jpeg'),
+                            ),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/anggota/detail',
+                                  arguments: anggota.id);
+                            },
+                          );
+                        },
+                      ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Cari anggota...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

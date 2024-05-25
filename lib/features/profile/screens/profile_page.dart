@@ -191,30 +191,30 @@ class _ProfilePageState extends State<ProfilePage> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 50),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                context,
-                                '/anggota',
-                                arguments: userData,
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFFF857BC9),
-                                elevation: 1,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                padding: EdgeInsets.symmetric(vertical: 10)),
-                            child: Text('Lihat Daftar Anggota',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 16,
-                                    color: Colors.white))),
-                      ),
+                      // const SizedBox(height: 50),
+                      // Padding(
+                      //   padding: EdgeInsets.all(8.0),
+                      //   child: ElevatedButton(
+                      //       onPressed: () {
+                      //         Navigator.pushNamed(
+                      //           context,
+                      //           '/anggota',
+                      //           arguments: userData,
+                      //         );
+                      //       },
+                      //       style: ElevatedButton.styleFrom(
+                      //           backgroundColor: Color(0xFFF857BC9),
+                      //           elevation: 1,
+                      //           shape: RoundedRectangleBorder(
+                      //             borderRadius: BorderRadius.circular(30),
+                      //           ),
+                      //           padding: EdgeInsets.symmetric(vertical: 10)),
+                      //       child: Text('Lihat Daftar Anggota',
+                      //           style: TextStyle(
+                      //               fontFamily: 'Poppins',
+                      //               fontSize: 16,
+                      //               color: Colors.white))),
+                      // ),
                     ],
                   )),
       ),
