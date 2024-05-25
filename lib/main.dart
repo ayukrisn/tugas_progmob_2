@@ -6,11 +6,18 @@ import 'package:tugas_progmob_2/utils/theme/theme.dart';
 import 'package:tugas_progmob_2/features/authentication/screens/splash_screen.dart';
 import 'package:tugas_progmob_2/features/authentication/screens/login_page.dart';
 import 'package:tugas_progmob_2/features/authentication/screens/register_page.dart';
+
 import 'package:tugas_progmob_2/features/profile/screens/profile_page.dart';
+
 import 'package:tugas_progmob_2/features/users/screens/users_list.dart';
 import 'package:tugas_progmob_2/features/users/screens/add_user.dart';
 import 'package:tugas_progmob_2/features/users/screens/user_detail.dart';
 import 'package:tugas_progmob_2/features/users/screens/edit_user.dart';
+
+import 'package:tugas_progmob_2/features/transaction/screens/transaction_type.dart';
+
+import 'package:tugas_progmob_2/features/savings/screens/savings_list.dart';
+import 'package:tugas_progmob_2/features/savings/screens/savings_detail.dart';
 
 Future<void> main() async{
   await GetStorage.init();
@@ -38,6 +45,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/anggota/detail', page: () => UserDetail()),
         GetPage(name: '/anggota/tambah', page: () => AddUser()),
         GetPage(name: '/anggota/edit', page: () => EditUser()),
+        GetPage(name: '/transaction', page: () => TransactionType()),
+        GetPage(name: '/savings', page: () => SavingList()),
+        GetPage(name: '/savings/detail', page: () => SavingDetail()),
       ],
     );
   }

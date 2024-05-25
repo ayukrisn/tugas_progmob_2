@@ -154,33 +154,42 @@ class _SavingListState extends State<SavingList> {
           children: [
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 68),
-                child: anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
-                    ? Text("Belum ada anggota")
-                    : ListView.builder(
-                        itemCount: anggotaDatas!.anggotaDatas.length,
-                        itemBuilder: (context, index) {
-                          final anggota = anggotaDatas!.anggotaDatas[index];
-                          return ListTile(
-                            title: Text(anggota.nama),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.savings, size: 14),
-                                SizedBox(width: 6),
-                                Text(anggota.saldo.toString()),
-                              ],
-                            ),
-                            leading: const CircleAvatar(
-                              backgroundImage:
-                                  AssetImage('assets/images/anggota.jpeg'),
-                            ),
-                            onTap: () {
-                              Navigator.pushNamed(context, '/anggota/detail',
-                                  arguments: anggota.id);
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 0, vertical: 68),
+                child:
+                    anggotaDatas == null || anggotaDatas!.anggotaDatas.isEmpty
+                        ? Text("Belum ada anggota")
+                        : ListView.builder(
+                            itemCount: anggotaDatas!.anggotaDatas.length,
+                            itemBuilder: (context, index) {
+                              final anggota = anggotaDatas!.anggotaDatas[index];
+                              return ListTile(
+                                title: Text(anggota.nama),
+                                subtitle: Row(
+                                  children: [
+                                    Icon(Icons.savings, size: 14),
+                                    SizedBox(width: 6),
+                                    Text(anggota.saldo.toString()),
+                                  ],
+                                ),
+                                leading: const CircleAvatar(
+                                  backgroundImage:
+                                      AssetImage('assets/images/anggota.jpeg'),
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/savings/detail',
+                                    arguments: {
+                                      'id': anggota.id,
+                                      'nama': anggota.nama,
+                                      'saldo': anggota.saldo,
+                                    },
+                                  );
+                                },
+                              );
                             },
-                          );
-                        },
-                      ),
+                          ),
               ),
             ),
             Positioned(
@@ -188,7 +197,8 @@ class _SavingListState extends State<SavingList> {
               left: 0,
               right: 0,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Cari anggota...',
