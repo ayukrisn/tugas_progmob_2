@@ -60,7 +60,7 @@ class Anggota {
 }
 
 class SavingList extends StatefulWidget {
-  const SavingList();
+  const SavingList({super.key});
 
   @override
   State<SavingList> createState() => _SavingListState();
@@ -88,6 +88,8 @@ class _SavingListState extends State<SavingList> {
       await getSaldoAnggota();
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -107,6 +109,8 @@ class _SavingListState extends State<SavingList> {
           });
         } on DioException catch (e) {
           print('${e.response} - ${e.response?.statusCode}');
+        } catch (e) {
+          print('Error: $e');
         }
       }
     }

@@ -86,6 +86,7 @@ class _SavingDetailState extends State<SavingDetail> {
         ),
       );
       Map<String, dynamic> responseData = _response.data;
+      print(responseData);
       if (responseData['success']) {
         setState(() {
           _transactionTypes = {
@@ -117,14 +118,33 @@ class _SavingDetailState extends State<SavingDetail> {
                 color: Color.fromARGB(26, 94, 86, 149),
               ),
               child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/savings/tambah',
-                  );
+                onPressed: () async {
+                  final result = await Navigator.pushNamed(
+                      context, '/savings/tambah',
+                      arguments: id);
+                  if (result == true) {
+                    getDetail();
+                  }
                 },
                 icon: Icon(
                   Icons.add,
+                  size: 32,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+             SizedBox(width: 16),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(26, 94, 86, 149),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  getDetail();
+                },
+                icon: Icon(
+                  Icons.refresh,
                   size: 32,
                   color: Colors.black,
                 ),
