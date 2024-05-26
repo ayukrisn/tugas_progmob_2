@@ -19,6 +19,8 @@ class _SavingDetailState extends State<SavingDetail> {
   List<Map<String, dynamic>> _transactions = [];
   Map<int, String> _transactionTypes = {};
 
+  bool _isInitialized = false; // Flag to check initialization
+
   @override
   void initState() {
     super.initState();
@@ -28,13 +30,14 @@ class _SavingDetailState extends State<SavingDetail> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (ModalRoute.of(context)?.settings.arguments != null) {
+    if (!_isInitialized && ModalRoute.of(context)?.settings.arguments != null) {
       final arguments =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       id = arguments['id'] as int;
       nama = arguments['nama'];
       saldo = arguments['saldo'];
       getDetail();
+      _isInitialized = true;
     }
   }
 
@@ -49,11 +52,28 @@ class _SavingDetailState extends State<SavingDetail> {
       Map<String, dynamic> responseData = _response.data;
       if (responseData['success']) {
         setState(() {
-          _transactions = List<Map<String, dynamic>>.from(responseData['data']['tabungan']);
+          _transactions =
+              List<Map<String, dynamic>>.from(responseData['data']['tabungan']);
         });
       }
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Oops!"),
+              content: Text(e.response?.data['message'] ?? 'An error occurred'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
     }
   }
 
@@ -68,7 +88,10 @@ class _SavingDetailState extends State<SavingDetail> {
       Map<String, dynamic> responseData = _response.data;
       if (responseData['success']) {
         setState(() {
-          _transactionTypes = {for (var item in responseData['data']['jenistransaksi']) item['id']: item['trx_name']};
+          _transactionTypes = {
+            for (var item in responseData['data']['jenistransaksi'])
+              item['id']: item['trx_name']
+          };
         });
       }
     } on DioException catch (e) {
@@ -88,20 +111,25 @@ class _SavingDetailState extends State<SavingDetail> {
                     color: Color(0xFF5E5695),
                   )),
           actions: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromARGB(26, 94, 86, 149),
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.add,
-                    size: 32,
-                    color: Colors.black,
-                  ),
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(26, 94, 86, 149),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/savings/tambah',
+                  );
+                },
+                icon: Icon(
+                  Icons.add,
+                  size: 32,
+                  color: Colors.black,
                 ),
               ),
+            ),
           ],
         ),
         body: _transactions.isEmpty
@@ -110,10 +138,11 @@ class _SavingDetailState extends State<SavingDetail> {
                 itemCount: _transactions.length,
                 itemBuilder: (context, index) {
                   final transaction = _transactions[index];
-                  final transactionType = _transactionTypes[transaction['trx_id']] ?? 'Unknown';
+                  final transactionType =
+                      _transactionTypes[transaction['trx_id']] ?? 'Unknown';
                   return ListTile(
                     title: Text(transaction['trx_nominal'].toString()),
-                    subtitle: Text(transactionType), 
+                    subtitle: Text(transactionType),
                     trailing: Text(transaction['trx_tanggal']),
                   );
                 },

@@ -18,6 +18,7 @@ import 'package:tugas_progmob_2/features/transaction/screens/transaction_type.da
 
 import 'package:tugas_progmob_2/features/savings/screens/savings_list.dart';
 import 'package:tugas_progmob_2/features/savings/screens/savings_detail.dart';
+import 'package:tugas_progmob_2/features/savings/screens/add_saving.dart';
 
 Future<void> main() async{
   await GetStorage.init();
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/transaction', page: () => TransactionType()),
         GetPage(name: '/savings', page: () => SavingList()),
         GetPage(name: '/savings/detail', page: () => SavingDetail()),
+        GetPage(name: '/savings/tambah', page: () => AddSaving()),
       ],
     );
   }
