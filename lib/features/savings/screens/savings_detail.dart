@@ -118,13 +118,9 @@ class _SavingDetailState extends State<SavingDetail> {
                 color: Color.fromARGB(26, 94, 86, 149),
               ),
               child: IconButton(
-                onPressed: () async {
-                  final result = await Navigator.pushNamed(
-                      context, '/savings/tambah',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/savings/tambah',
                       arguments: id);
-                  if (result == true) {
-                    getDetail();
-                  }
                 },
                 icon: Icon(
                   Icons.add,
@@ -133,7 +129,7 @@ class _SavingDetailState extends State<SavingDetail> {
                 ),
               ),
             ),
-             SizedBox(width: 16),
+            SizedBox(width: 16),
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,

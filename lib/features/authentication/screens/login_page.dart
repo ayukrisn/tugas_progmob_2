@@ -60,10 +60,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("OK"),
                   onPressed: () {
                     Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => NavBar()),
-                          );
+                      context,
+                      MaterialPageRoute(builder: (context) => NavBar()),
+                    );
                   },
                 ),
               ],
