@@ -213,16 +213,16 @@ class _UsersListState extends State<UsersList> {
                                             TextButton(
                                               onPressed: () {
                                                 Navigator.of(context)
-                                                    .pop(); // Close the dialog
+                                                    .pop(); 
                                               },
                                               child: Text('Tidak'),
                                             ),
                                             TextButton(
                                               onPressed: () {
                                                 delAnggota(anggota
-                                                    .id); // Call the logout function
+                                                    .id); 
                                                 Navigator.of(context)
-                                                    .pop(); // Close the dialog
+                                                    .pop(); 
                                               },
                                               child: Text('Hapus'),
                                             ),

@@ -102,68 +102,76 @@ class _SavingDetailState extends State<SavingDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
-      child: Scaffold(
-        backgroundColor: Color(0xFFFAFAFA),
-        appBar: AppBar(
-          title: Text('Detail Tabungan',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: Color(0xFF5E5695),
-                  )),
-          actions: [
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color.fromARGB(26, 94, 86, 149),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/savings/tambah',
-                      arguments: id);
-                },
-                icon: Icon(
-                  Icons.add,
-                  size: 32,
-                  color: Colors.black,
-                ),
+    return Scaffold(
+      backgroundColor: Color(0xFFFAFAFA),
+      appBar: AppBar(
+        title: Text('Detail Tabungan',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Color(0xFF5E5695),
+                )),
+        actions: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/savings/tambah', arguments: id);
+              },
+              icon: Icon(
+                Icons.add,
+                size: 32,
+                color: Colors.black,
               ),
             ),
-            SizedBox(width: 16),
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color.fromARGB(26, 94, 86, 149),
-              ),
-              child: IconButton(
-                onPressed: () {
-                  getDetail();
-                },
-                icon: Icon(
-                  Icons.refresh,
-                  size: 32,
-                  color: Colors.black,
-                ),
+          ),
+          SizedBox(width: 16),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {
+                getDetail();
+              },
+              icon: Icon(
+                Icons.refresh,
+                size: 32,
+                color: Colors.black,
               ),
             ),
-          ],
-        ),
-        body: _transactions.isEmpty
-            ? Center(child: Text('No transactions to show'))
-            : ListView.builder(
+          ),
+        ],
+      ),
+      body: _transactions.isEmpty
+          ? Center(child: Text('No transactions to show'))
+          : Padding(
+            padding: const EdgeInsets.all(16),
+            child: ListView.builder(
                 itemCount: _transactions.length,
                 itemBuilder: (context, index) {
                   final transaction = _transactions[index];
                   final transactionType =
                       _transactionTypes[transaction['trx_id']] ?? 'Unknown';
-                  return ListTile(
-                    title: Text(transaction['trx_nominal'].toString()),
-                    subtitle: Text(transactionType),
-                    trailing: Text(transaction['trx_tanggal']),
+                  return Card(
+                    margin: EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text('Nominal: ${transaction['trx_nominal'].toString()}'),
+                      subtitle: Row(
+                        children: [
+                          Icon(Icons.account_balance_wallet, size: 14),
+                          SizedBox(width: 6),
+                          Text('ID: ${transaction['id'].toString()} | ${transactionType}'),
+                        ],
+                      ),
+                      trailing: Text(transaction['trx_tanggal']),
+                    ),
                   );
                 },
               ),
-      ),
+          ),
     );
   }
 }

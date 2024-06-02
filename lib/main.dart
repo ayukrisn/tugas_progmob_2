@@ -14,6 +14,7 @@ import 'package:tugas_progmob_2/features/users/screens/add_user.dart';
 import 'package:tugas_progmob_2/features/users/screens/user_detail.dart';
 import 'package:tugas_progmob_2/features/users/screens/edit_user.dart';
 
+import 'package:tugas_progmob_2/features/transaction/screens/transaction.dart';
 import 'package:tugas_progmob_2/features/transaction/screens/transaction_type.dart';
 
 import 'package:tugas_progmob_2/features/savings/screens/savings_list.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/anggota/detail', page: () => UserDetail()),
         GetPage(name: '/anggota/tambah', page: () => AddUser()),
         GetPage(name: '/anggota/edit', page: () => EditUser()),
-        GetPage(name: '/transaction', page: () => TransactionType()),
+        GetPage(name: '/transaction', page: () => Transaction()),
+        GetPage(name: '/transactionType', page: () => TransactionType()),
         GetPage(name: '/savings', page: () => SavingList()),
         GetPage(name: '/savings/detail', page: () => SavingDetail()),
         GetPage(name: '/savings/tambah', page: () => AddSaving()),

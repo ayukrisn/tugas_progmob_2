@@ -43,8 +43,7 @@ class _TransactionTypeState extends State<TransactionType> {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Transaksi',
+        title: Text('Jenis Transaksi',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: Color(0xFF5E5695),
                 )),
@@ -70,6 +69,7 @@ class _TransactionTypeState extends State<TransactionType> {
                           Text(multiply.toString()),
                         ],
                       ),
+                      trailing: Text('ID: ${jenisTransaksi.id.toString()}')
                     ),
                   );
                 },

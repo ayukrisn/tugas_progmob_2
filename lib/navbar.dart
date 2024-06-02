@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:tugas_progmob_2/features/profile/screens/profile_page.dart';
 import 'package:tugas_progmob_2/features/users/screens/users_list.dart';
-import 'package:tugas_progmob_2/features/transaction/screens/transaction_type.dart';
+import 'package:tugas_progmob_2/features/transaction/screens/transaction.dart';
 import 'package:tugas_progmob_2/features/savings/screens/savings_list.dart';
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -39,6 +39,6 @@ class NavigationController extends GetxController {
     ProfilePage(),
     UsersList(),
     SavingList(),
-    TransactionType(),
+    Transaction(),
   ];
 }

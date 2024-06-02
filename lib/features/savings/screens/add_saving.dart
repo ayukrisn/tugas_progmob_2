@@ -81,7 +81,7 @@ class _AddSavingState extends State<AddSaving> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Tabungan berhasil ditambahkan!"),
+                  title: Text("Transaksi berhasil ditambahkan!"),
                   content: Text('Yeay!'),
                   actions: <Widget>[
                     TextButton(
@@ -138,7 +138,7 @@ class _AddSavingState extends State<AddSaving> {
     return Scaffold(
         backgroundColor: Color(0xFFFAFAFA),
         appBar: AppBar(
-          title: Text('Tambah Tabungan',
+          title: Text('Lakukan Transaksi',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: const Color(0xFF5E5695),
                   )),
@@ -212,7 +212,7 @@ class _AddSavingState extends State<AddSaving> {
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(vertical: 10)),
-                                  child: Text('Tambah Tabungan',
+                                  child: Text('Lakukan Transaksi',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 16,
