@@ -51,33 +51,72 @@ class _BungaListState extends State<BungaList> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: bungaData == null
             ? Center(child: CircularProgressIndicator())
             : bungaData!.isEmpty()
-                ? Center(child: Text("No bunga yet"))
+                ? Center(
+                    child: Text(
+                      "No bunga yet",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
                 : ListView(
                     children: [
                       if (bungaData!.activeBunga != null)
                         Card(
-                          margin: EdgeInsets.all(8.0),
+                          margin: EdgeInsets.symmetric(vertical: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          elevation: 5,
                           child: ListTile(
-                            title: Text('Active Bunga'),
+                            title: Text(
+                              'Active Bunga',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
                             subtitle: Text(
-                                'Persen: ${bungaData!.activeBunga!.persen}%'),
-                            trailing: Text('ID: ${bungaData!.activeBunga!.id}'),
+                              'Persen: ${bungaData!.activeBunga!.persen}%',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            trailing: Text(
+                              'ID: ${bungaData!.activeBunga!.id}',
+                              style: TextStyle(fontSize: 16),
+                            ),
                           ),
                         ),
                       Divider(),
-                      Text('Inactive Bunga',
-                          style: Theme.of(context).textTheme.headlineSmall),
+                      Text(
+                        'Inactive Bunga',
+                        style:
+                            Theme.of(context).textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF5E5695),
+                                ),
+                      ),
                       if (bungaData!.inactiveBunga.isNotEmpty)
                         ...bungaData!.inactiveBunga
                             .map((bunga) => Card(
-                                  margin: EdgeInsets.all(8.0),
+                                  margin: EdgeInsets.symmetric(vertical: 10),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  elevation: 3,
                                   child: ListTile(
-                                    title: Text('Persen: ${bunga.persen}%'),
-                                    trailing: Text('ID: ${bunga.id}'),
+                                    title: Text(
+                                      'Persen: ${bunga.persen}%',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    trailing: Text(
+                                      'ID: ${bunga.id}',
+                                      style: TextStyle(fontSize: 16),
+                                    ),
                                   ),
                                 ))
                             .toList(),
