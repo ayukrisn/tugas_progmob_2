@@ -33,7 +33,7 @@ class _TransactionTypeState extends State<TransactionType> {
       setState(() {
         jenisTransaksis = JenisTransaksis.fromJson(responseData['data']);
       });
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
     }
   }
