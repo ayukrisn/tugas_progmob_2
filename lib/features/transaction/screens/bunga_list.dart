@@ -49,6 +49,40 @@ class _BungaListState extends State<BungaList> {
                 color: Color(0xFF5E5695),
               ),
         ),
+        actions: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {
+                getBungaData();
+              },
+              icon: Icon(
+                Icons.refresh,
+                size: 32,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color.fromARGB(26, 94, 86, 149),
+            ),
+            child: IconButton(
+              onPressed: () {Navigator.pushNamed(context, '/bunga/tambah');},
+              icon: Icon(
+                Icons.add,
+                size: 32,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          SizedBox(width: 16),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -57,7 +91,7 @@ class _BungaListState extends State<BungaList> {
             : bungaData!.isEmpty()
                 ? Center(
                     child: Text(
-                      "No bunga yet",
+                      "Kamu belum menambahkan bunga.",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.grey,
@@ -82,11 +116,11 @@ class _BungaListState extends State<BungaList> {
                               ),
                             ),
                             subtitle: Text(
-                              'Persen: ${bungaData!.activeBunga!.persen}%',
+                              'ID: ${bungaData!.activeBunga!.id}',
                               style: TextStyle(fontSize: 16),
                             ),
                             trailing: Text(
-                              'ID: ${bungaData!.activeBunga!.id}',
+                              'Persen: ${bungaData!.activeBunga!.persen}%',
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
@@ -110,11 +144,11 @@ class _BungaListState extends State<BungaList> {
                                   elevation: 3,
                                   child: ListTile(
                                     title: Text(
-                                      'Persen: ${bunga.persen}%',
+                                      'ID: ${bunga.id}',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                     trailing: Text(
-                                      'ID: ${bunga.id}',
+                                      'Persen: ${bunga.persen}%',
                                       style: TextStyle(fontSize: 16),
                                     ),
                                   ),

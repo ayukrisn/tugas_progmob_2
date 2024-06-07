@@ -2,69 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
 
-class AddSaving extends StatefulWidget {
-  const AddSaving({super.key});
+class AddBunga extends StatefulWidget {
+  const AddBunga({super.key});
 
   @override
-  State<AddSaving> createState() => _AddSavingState();
+  State<AddBunga> createState() => _AddBungaState();
 }
 
-class _AddSavingState extends State<AddSaving> {
+class _AddBungaState extends State<AddBunga> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _transactionNominalController = TextEditingController();
+  TextEditingController persenController = TextEditingController();
 
-  List<Map<String, dynamic>> _transactionTypes = [];
-  int? id;
-  int? _selectedTransactionID;
+  int? _selectedAktif;
 
   final _dio = Dio();
   final _storage = GetStorage();
   final _apiUrl = 'https://mobileapis.manpits.xyz/api';
 
-  bool _isInitialized = false;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchTransactionTypes();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (ModalRoute.of(context)?.settings.arguments != null) {
-      id = ModalRoute.of(context)?.settings.arguments as int;
-    }
-  }
-
-  Future<void> fetchTransactionTypes() async {
-    try {
-      final _response = await _dio.get(
-        '$_apiUrl/jenistransaksi',
-        options: Options(
-          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
-        ),
-      );
-      Map<String, dynamic> responseData = _response.data;
-      if (responseData['success']) {
-        setState(() {
-          _transactionTypes = List<Map<String, dynamic>>.from(
-              responseData['data']['jenistransaksi']);
-        });
-      }
-    } on DioException catch (e) {
-      print('Error fetching transaction types: $e');
-    }
-  }
-
-  Future<void> addSaving() async {
+  Future<void> addBunga() async {
     try {
       final _response = await _dio.post(
-        '$_apiUrl/tabungan',
+        '$_apiUrl/addsettingbunga',
         data: {
-          'anggota_id': id,
-          'trx_id': _selectedTransactionID,
-          'trx_nominal': int.parse(_transactionNominalController.text)
+          'persen': persenController.text,
+          'isaktif': _selectedAktif,
         },
         options: Options(
           headers: {
@@ -81,8 +42,8 @@ class _AddSavingState extends State<AddSaving> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Transaksi berhasil ditambahkan!"),
-                  content: Text('Yeay!'),
+                  title: Text("Yeay!"),
+                  content: Text('Bunga berhasil ditambahkan!'),
                   actions: <Widget>[
                     TextButton(
                       child: Text("OK"),
@@ -98,8 +59,8 @@ class _AddSavingState extends State<AddSaving> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text(responseData['message']),
-                  content: Text('Wait...'),
+                  title: Text('Wait...'),
+                  content: Text(responseData['message']),
                   actions: <Widget>[
                     TextButton(
                       child: Text("OK"),
@@ -138,7 +99,7 @@ class _AddSavingState extends State<AddSaving> {
     return Scaffold(
         backgroundColor: Color(0xFFFAFAFA),
         appBar: AppBar(
-          title: Text('Lakukan Transaksi',
+          title: Text('Lakukan Penambahan Bunga',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                     color: const Color(0xFF5E5695),
                   )),
@@ -154,38 +115,42 @@ class _AddSavingState extends State<AddSaving> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         DropdownButtonFormField<int>(
-                          value: _selectedTransactionID,
+                          value: _selectedAktif,
                           onChanged: (value) {
                             setState(() {
-                              _selectedTransactionID = value;
+                              _selectedAktif = value;
                             });
                           },
-                          items: _transactionTypes.map((transaction) {
-                            return DropdownMenuItem<int>(
-                              value: transaction['id'],
-                              child: Text(transaction['trx_name']),
-                            );
-                          }).toList(),
+                          items: [
+                            DropdownMenuItem<int>(
+                              value: 0,
+                              child: Text('Tidak Aktif'),
+                            ),
+                            DropdownMenuItem<int>(
+                              value: 1,
+                              child: Text('Aktif'),
+                            ),
+                          ],
                           decoration: InputDecoration(
-                            labelText: 'Pilih Jenis Transaksi',
+                            labelText: 'Status Bunga',
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) => value == null
-                              ? 'Silakan pilih jenis transaksi'
+                              ? 'Silakan pilih status bunga'
                               : null,
                         ),
                         const SizedBox(height: 16),
                         TextFormField(
-                          controller: _transactionNominalController,
-                          keyboardType: TextInputType.number,
+                          controller: persenController,
+                          keyboardType: TextInputType.numberWithOptions(decimal: true),
                           decoration: InputDecoration(
-                            labelText: 'Nominal Transaksi',
-                            prefixIcon: Icon(Icons.monetization_on_rounded,
-                                color: Color(0xFF5E5695)),
+                            labelText: 'Persentase Bunga',
+                            prefixIcon:
+                                Icon(Icons.percent, color: Color(0xFF5E5695)),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Silakan masukkan nominal transaksi';
+                              return 'Silakan masukkan persentase bunga';
                             }
                             if (int.tryParse(value) == null) {
                               return 'Nominal harus berupa angka';
@@ -201,7 +166,7 @@ class _AddSavingState extends State<AddSaving> {
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       _formKey.currentState?.save();
-                                      addSaving();
+                                      addBunga();
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -212,7 +177,7 @@ class _AddSavingState extends State<AddSaving> {
                                       ),
                                       padding:
                                           EdgeInsets.symmetric(vertical: 10)),
-                                  child: Text('Lakukan Transaksi',
+                                  child: Text('Tambahkan Bunga',
                                       style: TextStyle(
                                           fontFamily: 'Poppins',
                                           fontSize: 16,
