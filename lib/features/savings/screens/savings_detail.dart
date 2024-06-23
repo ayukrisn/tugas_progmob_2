@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 class SavingDetail extends StatefulWidget {
   const SavingDetail({super.key});
@@ -102,6 +103,13 @@ class _SavingDetailState extends State<SavingDetail> {
 
   @override
   Widget build(BuildContext context) {
+
+      final NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
@@ -158,12 +166,12 @@ class _SavingDetailState extends State<SavingDetail> {
                   return Card(
                     margin: EdgeInsets.all(8.0),
                     child: ListTile(
-                      title: Text('Nominal: ${transaction['trx_nominal'].toString()}'),
+                      title: Text('Nominal: ${currencyFormat.format(transaction['trx_nominal'])}'),
                       subtitle: Row(
                         children: [
                           Icon(Icons.account_balance_wallet, size: 14),
                           SizedBox(width: 6),
-                          Text('ID: ${transaction['id'].toString()} | ${transactionType}'),
+                          Text('${transactionType}'),
                         ],
                       ),
                       trailing: Text(transaction['trx_tanggal']),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 class AnggotaDatas {
   final List<Anggota> anggotaDatas;
@@ -124,6 +125,13 @@ class _SavingListState extends State<SavingList> {
 
   @override
   Widget build(BuildContext context) {
+
+    final NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 32),
       child: Scaffold(
@@ -173,7 +181,7 @@ class _SavingListState extends State<SavingList> {
                                   children: [
                                     Icon(Icons.savings, size: 14),
                                     SizedBox(width: 6),
-                                    Text(anggota.saldo.toString()),
+                                    Text(currencyFormat.format(anggota.saldo)),
                                   ],
                                 ),
                                 leading: const CircleAvatar(
