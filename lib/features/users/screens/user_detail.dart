@@ -59,76 +59,90 @@ class _UserDetailState extends State<UserDetail> {
                   color: Color(0xFF5E5695),
                 )),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          child: anggota == null
-              ? Text("Belum ada anggota")
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Text("ID"),
-                      subtitle: Text("${anggota?.id}"),
-                    ),
-                    ListTile(
-                      title: Text("Nomor Induk"),
-                      subtitle: Text("${anggota?.nomor_induk}"),
-                    ),
-                    ListTile(
-                      title: Text("Nama"),
-                      subtitle: Text("${anggota?.nama}"),
-                    ),
-                    ListTile(
-                      title: Text("Alamat"),
-                      subtitle: Text("${anggota?.alamat}"),
-                    ),
-                    ListTile(
-                      title: Text("Tanggal Lahir"),
-                      subtitle: Text("${anggota?.tgl_lahir}"),
-                    ),
-                    ListTile(
-                      title: Text("Telepon"),
-                      subtitle: Text("${anggota?.telepon}"),
-                    ),
-                    ListTile(
-                      title: Text("Image URL"),
-                      subtitle: Text("${anggota?.image_url}"),
-                    ),
-                    ListTile(
-                      title: Text("Status Aktif"),
-                      subtitle: Text("${anggota?.status_aktif}"),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        child: anggota == null
+            ? Text("Belum ada anggota")
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Center(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/anggota/edit',
-                                    arguments: anggota?.id);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Color(0xFFF857BC9),
-                                  elevation: 1,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  padding: EdgeInsets.symmetric(vertical: 10)),
-                              child: Text('Edit Anggota',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 16,
-                                      color: Colors.white))),
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              AssetImage('assets/images/anggota.jpeg'),
+                        ),
+                        const SizedBox(height: 24),
+                        const Text(
+                          "Nama Anggota",
+                          style: TextStyle(fontSize: 14, color: Colors.grey),
+                        ),
+                        Text(
+                          "${anggota?.nama}",
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                  ],
-                ),
-        ),
+                  ),
+                  const SizedBox(height: 20),
+                  _buildDetailRow('ID', '${anggota?.id}'),
+                  _buildDetailRow('Nomor Induk', '${anggota?.nomor_induk}'),
+                  _buildDetailRow('Tanggal Lahir', '${anggota?.tgl_lahir}'),
+                  _buildDetailRow('Nomor Telepon', '${anggota?.telepon}'),
+                  _buildDetailRow('Alamat', '${anggota?.alamat}'),
+                  _buildDetailRow('Status Aktif',
+                      anggota?.status_aktif == 1 ? 'Aktif' : 'Non-aktif'),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/anggota/edit',
+                                  arguments: anggota?.id);
+                            },
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFF857BC9),
+                                elevation: 1,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 10)),
+                            child: Text('Edit Anggota',
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 16,
+                                    color: Colors.white))),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
       ),
     );
   }
+}
+
+Widget _buildDetailRow(String label, String value) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16, color: Colors.grey),
+        ),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
+    ),
+  );
 }
 
 class Anggota {
