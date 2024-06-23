@@ -88,13 +88,9 @@ class _UserDetailState extends State<UserDetail> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  _buildDetailRow('ID', '${anggota?.id}'),
-                  _buildDetailRow('Nomor Induk', '${anggota?.nomor_induk}'),
-                  _buildDetailRow('Tanggal Lahir', '${anggota?.tgl_lahir}'),
-                  _buildDetailRow('Nomor Telepon', '${anggota?.telepon}'),
-                  _buildDetailRow('Alamat', '${anggota?.alamat}'),
-                  _buildDetailRow('Status Aktif',
-                      anggota?.status_aktif == 1 ? 'Aktif' : 'Non-aktif'),
+                  _buildDetailGrid(anggota),
+                  const SizedBox(height: 16),
+                  // _buildBalanceSection(anggota.saldo),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -126,24 +122,113 @@ class _UserDetailState extends State<UserDetail> {
   }
 }
 
-Widget _buildDetailRow(String label, String value) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 8.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget _buildDetailGrid(Anggota? anggota) {
+    return Column(
       children: [
-        Text(
-          label,
-          style: const TextStyle(fontSize: 16, color: Colors.grey),
+        Row(
+          children: [
+            Expanded(child: _buildDetailCard('ID', '${anggota?.id}')),
+            const SizedBox(width: 8),
+            Expanded(child: _buildDetailCard('Nomor Induk', '${anggota?.nomor_induk}')),
+          ],
         ),
-        Text(
-          value,
-          style: const TextStyle(fontSize: 16),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(child: _buildDetailCard('Tanggal Lahir', anggota?.tgl_lahir ?? '')),
+            const SizedBox(width: 8),
+            Expanded(child: _buildDetailCard('Nomor Telepon', anggota?.telepon ?? '')),
+          ],
         ),
+        const SizedBox(height: 8),
+        _buildDetailCard('Alamat', anggota?.alamat ?? ''),
       ],
-    ),
-  );
-}
+    );
+  }
+
+  Widget _buildDetailCard(String label, String value) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget _buildBalanceSection(double? saldo) {
+  //   return Container(
+  //     padding: const EdgeInsets.all(16),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white,
+  //       borderRadius: BorderRadius.circular(8),
+  //       boxShadow: [
+  //         BoxShadow(
+  //           color: Colors.grey.withOpacity(0.2),
+  //           spreadRadius: 2,
+  //           blurRadius: 5,
+  //           offset: const Offset(0, 3),
+  //         ),
+  //       ],
+  //     ),
+  //     child: Column(
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Icon(Icons.account_balance_wallet, color: Colors.purple),
+  //                 const SizedBox(width: 8),
+  //                 const Text(
+  //                   'Saldo',
+  //                   style: TextStyle(fontSize: 16, color: Colors.grey),
+  //                 ),
+  //               ],
+  //             ),
+  //             Text(
+  //               'Rp${saldo?.toStringAsFixed(0)}',
+  //               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 16),
+  //         ElevatedButton(
+  //           onPressed: () {
+  //             // Add transaction view functionality
+  //           },
+  //           child: const Text('Lihat Transaksi'),
+  //           style: ElevatedButton.styleFrom(
+  //             primary: Colors.purple,
+  //             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
 class Anggota {
   final int id;
