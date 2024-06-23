@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 class UserDetail extends StatefulWidget {
   const UserDetail({super.key});
@@ -22,6 +23,7 @@ class _UserDetailState extends State<UserDetail> {
     if (ModalRoute.of(context)?.settings.arguments != null) {
       id = ModalRoute.of(context)?.settings.arguments as int;
       getDetail();
+      getSaldoAnggota();
     }
   }
 
@@ -41,6 +43,25 @@ class _UserDetailState extends State<UserDetail> {
       });
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
+    }
+  }
+
+  Future<void> getSaldoAnggota() async {
+    try {
+      final _response = await _dio.get(
+        '$_apiUrl/saldo/${id}',
+        options: Options(
+          headers: {'Authorization': 'Bearer ${_storage.read('token')}'},
+        ),
+      );
+      Map<String, dynamic> responseData = _response.data;
+      setState(() {
+        anggota?.saldo = responseData['data']['saldo'];
+      });
+    } on DioException catch (e) {
+      print('${e.response} - ${e.response?.statusCode}');
+    } catch (e) {
+      print('Error: $e');
     }
   }
 
@@ -90,7 +111,7 @@ class _UserDetailState extends State<UserDetail> {
                   const SizedBox(height: 20),
                   _buildDetailGrid(anggota),
                   const SizedBox(height: 16),
-                  // _buildBalanceSection(anggota.saldo),
+                  _buildBalanceSection(context, anggota),
                   const SizedBox(height: 16),
                   Row(
                     children: [
@@ -123,112 +144,138 @@ class _UserDetailState extends State<UserDetail> {
 }
 
 Widget _buildDetailGrid(Anggota? anggota) {
-    return Column(
+  return Column(
+    children: [
+      Row(
+        children: [
+          Expanded(child: _buildDetailCard('ID', '${anggota?.id}')),
+          const SizedBox(width: 8),
+          Expanded(
+              child:
+                  _buildDetailCard('Nomor Induk', '${anggota?.nomor_induk}')),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Row(
+        children: [
+          Expanded(
+              child:
+                  _buildDetailCard('Tanggal Lahir', anggota?.tgl_lahir ?? '')),
+          const SizedBox(width: 8),
+          Expanded(
+              child: _buildDetailCard('Nomor Telepon', anggota?.telepon ?? '')),
+        ],
+      ),
+      const SizedBox(height: 8),
+      _buildDetailCard('Alamat', anggota?.alamat ?? ''),
+    ],
+  );
+}
+
+Widget _buildDetailCard(String label, String value) {
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(fontSize: 14, color: Colors.grey),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildBalanceSection(BuildContext context, Anggota? anggota) {
+  final NumberFormat currencyFormat = NumberFormat.currency(
+      locale: 'id_ID',
+      symbol: 'Rp',
+      decimalDigits: 0,
+    );
+    
+  return Container(
+    padding: const EdgeInsets.all(16),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.grey.withOpacity(0.1),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
+        ),
+      ],
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
-            Expanded(child: _buildDetailCard('ID', '${anggota?.id}')),
+            Icon(Icons.account_balance_wallet, color: Colors.purple),
             const SizedBox(width: 8),
-            Expanded(child: _buildDetailCard('Nomor Induk', '${anggota?.nomor_induk}')),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Saldo',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  currencyFormat.format(anggota?.saldo),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ],
         ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(child: _buildDetailCard('Tanggal Lahir', anggota?.tgl_lahir ?? '')),
-            const SizedBox(width: 8),
-            Expanded(child: _buildDetailCard('Nomor Telepon', anggota?.telepon ?? '')),
-          ],
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              '/savings/detail',
+              arguments: {
+                'id': anggota?.id,
+                'nama': anggota?.nama,
+                'saldo': anggota?.saldo,
+              },
+            );
+          },
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Color(0xFFF857BC9),
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12)),
+          child: Text('Transaksi',
+              style: TextStyle(
+                  fontFamily: 'Poppins', fontSize: 12, color: Colors.white)),
         ),
-        const SizedBox(height: 8),
-        _buildDetailCard('Alamat', anggota?.alamat ?? ''),
       ],
-    );
-  }
-
-  Widget _buildDetailCard(String label, String value) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 14, color: Colors.grey),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Widget _buildBalanceSection(double? saldo) {
-  //   return Container(
-  //     padding: const EdgeInsets.all(16),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(8),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.grey.withOpacity(0.2),
-  //           spreadRadius: 2,
-  //           blurRadius: 5,
-  //           offset: const Offset(0, 3),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Column(
-  //       children: [
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Row(
-  //               children: [
-  //                 Icon(Icons.account_balance_wallet, color: Colors.purple),
-  //                 const SizedBox(width: 8),
-  //                 const Text(
-  //                   'Saldo',
-  //                   style: TextStyle(fontSize: 16, color: Colors.grey),
-  //                 ),
-  //               ],
-  //             ),
-  //             Text(
-  //               'Rp${saldo?.toStringAsFixed(0)}',
-  //               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-  //             ),
-  //           ],
-  //         ),
-  //         const SizedBox(height: 16),
-  //         ElevatedButton(
-  //           onPressed: () {
-  //             // Add transaction view functionality
-  //           },
-  //           child: const Text('Lihat Transaksi'),
-  //           style: ElevatedButton.styleFrom(
-  //             primary: Colors.purple,
-  //             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+    ),
+  );
+}
 
 class Anggota {
   final int id;
@@ -239,6 +286,7 @@ class Anggota {
   final String telepon;
   final String? image_url;
   final int? status_aktif;
+  int saldo;
 
   Anggota({
     required this.id,
@@ -249,6 +297,7 @@ class Anggota {
     required this.telepon,
     required this.image_url,
     required this.status_aktif,
+    required this.saldo,
   });
 
   factory Anggota.fromJson(Map<String, dynamic> json) {
@@ -267,11 +316,11 @@ class Anggota {
           telepon: anggotaData['telepon'],
           image_url: anggotaData['image_url'],
           status_aktif: anggotaData['status_aktif'],
+          saldo: 0,
         );
       }
     }
 
-    // If data or anggotaData is null, throw an exception or return a default instance
     throw Exception('Failed to parse Anggota from JSON');
   }
 }

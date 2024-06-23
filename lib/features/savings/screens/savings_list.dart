@@ -31,7 +31,7 @@ class Anggota {
   final String telepon;
   final String? image_url;
   final int? status_aktif;
-  int saldo; // Add this field for saldo
+  int saldo;
 
   Anggota({
     required this.id,
@@ -42,7 +42,7 @@ class Anggota {
     required this.telepon,
     required this.image_url,
     required this.status_aktif,
-    required this.saldo, // Initialize saldo in the constructor
+    required this.saldo,
   });
 
   factory Anggota.fromJson(Map<String, dynamic> json) {
@@ -55,7 +55,7 @@ class Anggota {
       telepon: json['telepon'],
       image_url: json['image_url'],
       status_aktif: json['status_aktif'],
-      saldo: 0, // Default saldo to 0, it will be updated later
+      saldo: 0,
     );
   }
 }
