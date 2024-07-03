@@ -22,12 +22,12 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _passwordVisible = true;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   super.dispose();
+  // }
 
   void goLogin() async {
     try {

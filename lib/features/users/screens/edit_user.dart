@@ -25,6 +25,8 @@ class _EditUserState extends State<EditUser> {
   int id = 0;
   DateTime? _tglLahir;
   bool _isDetailLoaded = false;
+  int? _statusAktif;
+  int? _selectedAktif;
 
   @override
   void didChangeDependencies() {
@@ -55,6 +57,7 @@ class _EditUserState extends State<EditUser> {
         _tglLahirController.text = anggota?.tgl_lahir.toString() ?? '';
         _noTeleponController.text = anggota?.telepon.toString() ?? '';
         _tglLahir= DateFormat("yyyy-MM-dd").parse(_tglLahirController.text);
+        _statusAktif = anggota?.status_aktif?.toInt() ?? 0;
       });
     } on DioException catch (e) {
       print('${e.response} - ${e.response?.statusCode}');
@@ -71,7 +74,7 @@ class _EditUserState extends State<EditUser> {
           'alamat': _alamatController.text,
           'tgl_lahir': _tglLahirController.text,
           'telepon': _noTeleponController.text,
-          'status_aktif': anggota?.status_aktif
+          'status_aktif': _selectedAktif
         },
         options: Options(
           headers: {
@@ -241,6 +244,32 @@ class _EditUserState extends State<EditUser> {
                         prefixIcon: Icon(Icons.phone, color: Color(0xFF5E5695)),
                       ),
                     ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<int>(
+                          value: _statusAktif,
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedAktif = value;
+                            });
+                          },
+                          items: [
+                            DropdownMenuItem<int>(
+                              value: 0,
+                              child: Text('Tidak Aktif'),
+                            ),
+                            DropdownMenuItem<int>(
+                              value: 1,
+                              child: Text('Aktif'),
+                            ),
+                          ],
+                          decoration: InputDecoration(
+                            labelText: 'Status Member',
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) => value == null
+                              ? 'Silakan pilih status member'
+                              : null,
+                        ),
                     const SizedBox(height: 70),
                     Row(
                       children: [

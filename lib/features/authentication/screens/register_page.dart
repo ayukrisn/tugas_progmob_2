@@ -23,13 +23,13 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _passwordVisible = true;
   bool _agreeToTerms = false;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailController.dispose();
+  //   _passwordController.dispose();
+  //   _confirmPasswordController.dispose();
+  //   super.dispose();
+  // }
 
   void goRegister() async {
     try {

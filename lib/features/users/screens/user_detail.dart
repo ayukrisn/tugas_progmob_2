@@ -83,7 +83,7 @@ class _UserDetailState extends State<UserDetail> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         child: anggota == null
-            ? Text("Belum ada anggota")
+            ? Center(child: CircularProgressIndicator())
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -148,7 +148,7 @@ Widget _buildDetailGrid(Anggota? anggota) {
     children: [
       Row(
         children: [
-          Expanded(child: _buildDetailCard('ID', '${anggota?.id}')),
+          Expanded(child: _buildDetailCard('Status Aktif', anggota?.status_aktif == 1 ? 'Aktif' : 'Non-aktif')),
           const SizedBox(width: 8),
           Expanded(
               child:
